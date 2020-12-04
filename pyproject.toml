@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "adventofcode"
+version = "0.1.0"
+description = ""
+authors = ["jessica <jessicap@adblockplus.org>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pytest = "^6.1.2"
+numpy = "^1.19.4"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.1.2"
+pytest-benchmark = "^3.2.3"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+# Add `-n auto` whenever you want tests with parallelisation
+# Add `--pdb` to debug when an exception is raised
+# Add `--pdbcls ipdb.__main__:debugger_cls` to use ipdb to debug
+# Add   --cov=<package> to set up coverage reporting for <package>
+addopts = "--showlocals -vv --junitxml=junit.xml"
+
+testpaths = [
+  "tests"
+]
+
+log_level = "DEBUG"
+# log_format=%(asctime)s:%(name)s:%(levelname)s - %(message)s
+# log_date_format=%Y%m%dT%H%M%S
+# log_cli=True
+
