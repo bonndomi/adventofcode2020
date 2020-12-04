@@ -14,10 +14,12 @@ def read_passports(lines: typing.Iterable[str]) -> list:
             yield result
             result = {}
             continue
-        splitted = line.split(" ")
+        splitted = line.split()
         for string in splitted:
             key, _, value = string.partition(":")
             result[key] = value
+    if result:
+        yield result
 
 
 HACKED_KEYS = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
