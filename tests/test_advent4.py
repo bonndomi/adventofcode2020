@@ -81,7 +81,7 @@ def test_read_passports():
                       'pid': '166559648'}, False, id="missing-cid-and-byr")
 ))
 def test_check_field_present(input, expected):
-    assert advent4.check_field_present(input) == expected
+    assert advent4.check_fields_present(input) == expected
 
 
 @pytest.mark.parametrize('input,expected', (
@@ -189,3 +189,4 @@ def test_validate_ecl(input, expected):
 ))
 def test_validate_pid(input, expected):
     assert advent4.validate_pid(input) == expected
+

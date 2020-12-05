@@ -25,7 +25,7 @@ def read_passports(lines: typing.Iterable[str]) -> list:
 HACKED_KEYS = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
 
 
-def check_field_present(passport: dict) -> bool:
+def check_fields_present(passport: dict) -> bool:
     passport_set = set(passport.keys())
     return passport_set.issuperset(HACKED_KEYS)
 
@@ -35,7 +35,7 @@ def main1(input_file: str) -> int:
     passports = read_passports(lines)
     count = 0
     for i, passport in enumerate(passports):
-        if check_field_present(passport):
+        if check_fields_present(passport):
             count += 1
         else:
             missing = set(passport).symmetric_difference(HACKED_KEYS)
@@ -44,11 +44,11 @@ def main1(input_file: str) -> int:
     return count
 
 
-def validate_byr(element):
-    try:
+def validate_byr(element: str):
+    if len(element) == 4 and element.isdecimal():
         int_element = int(element)
         return 1920 <= int_element <= 2002
-    except ValueError:
+    else:
         return False
 
 
@@ -82,7 +82,7 @@ def validate_hgt(element: str):
 
 
 def validate_hcl(element: str):
-    if element.startswith("#") and element.len == 7:
+    if element.startswith("#") and len(element) == 7:
         color = element.removeprefix("#")
         try:
             int(color, 16)
@@ -98,13 +98,26 @@ def validate_ecl(element: str):
 
 
 def validate_pid(element: str):
-    return element.isdecimal()
+    return element.isdecimal() and len(element) == 9
 
 
 def validate_passport(passport: typing.Dict[str, str]):
-    key, value = passport.items()
-    return validate_ecl(value) and validate_pid(value) and validate_hcl(value) and validate_eyr(value) and validate_hgt(value) and validate_byr(value) and validate_iyr(value)
+    ecl = validate_ecl(passport["ecl"])
+    pid = validate_pid(passport["pid"])
+    hcl = validate_hcl(passport["hcl"])
+    eyr = validate_eyr(passport["eyr"])
+    hgt = validate_hgt(passport["hgt"])
+    byr = validate_byr(passport["byr"])
+    iyr = validate_iyr(passport["iyr"])
+
+    return ecl and pid and hcl and eyr and hgt and byr and iyr
 
 
 def main2(input_file:str) -> int:
-    pass
+    lines = load_input(input_file)
+    passports = read_passports(lines)
+    count = 0
+    for i, passport in enumerate(passports):
+        if check_fields_present(passport) and validate_passport(passport):
+            count += 1
+    return count
