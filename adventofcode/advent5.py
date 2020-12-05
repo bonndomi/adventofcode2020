@@ -47,6 +47,19 @@ def min_max_sum(seats) -> tuple[int, int, int]:
 def main2(input_file):
     coordinates = load_input(input_file)
     min_row, max_row, seat_sum = min_max_sum(get_seat(s) for s in coordinates)
-    possible_total = sum(range((min_row + 1) * 8, (max_row -1) * 8))
+    possible_total = sum(range((min_row + 1) * 8, (max_row) * 8))
     return possible_total - seat_sum
 
+
+def cli(input_file):
+    coordinates = load_input(input_file)
+    seats = (get_seat(c) for c in coordinates)
+    all_seats = {s: 0 for s in range(1024)}
+    all_seats.update({s:1 for s in seats})
+    for seat, exists in sorted(all_seats.items()):
+        if not seat % 8:
+            print("")
+        print(exists, end="")
+
+if __name__ == "__main__":
+    cli("tests/javier/5.txt")
