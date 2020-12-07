@@ -37,10 +37,6 @@ def main1(input_file: str) -> int:
     for i, passport in enumerate(passports):
         if check_fields_present(passport):
             count += 1
-        else:
-            missing = set(passport).symmetric_difference(HACKED_KEYS)
-            print(f"passport {i} is invalid, missing {missing}", )
-
     return count
 
 
